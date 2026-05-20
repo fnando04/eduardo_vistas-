@@ -1,0 +1,97 @@
+body{
+    display: flex;
+    align-items: start;
+    justify-content: start;
+}
+
+aside{
+    width: 20%;
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    background-color: whitesmoke;
+
+    padding: 1rem;
+    gap: 0.5rem;
+
+    img{
+        width: 75%;
+
+        margin: 0 0 10% 0;
+    }
+
+    button{
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        border: 0;
+        border-radius: 8px;
+
+        padding: 0.5rem;
+
+        cursor: pointer;
+    }
+
+    .settings{
+        margin: 10% 0 0 0;
+    }
+
+    .signOut{
+        color: white;
+        background-color: crimson;
+
+        svg{
+            stroke: white;
+        }
+    }
+}
+
+main{
+    width: 80%;
+
+    padding: 1rem 2rem;
+
+    .table{
+        .headRow, .row{
+            width: 100%;
+
+            display: flex;
+            align-items: start;
+            justify-content: start;
+
+            border-bottom: 1px solid black;
+            padding: 1rem 0.8rem;
+
+            .id{
+                width: 5%;
+            }
+
+            .topic{
+                width: 35%;
+            }
+
+            .date{
+                width: 25%;
+            }
+
+            .teacher{
+                width: 35%;
+            }
+        }
+
+        .row:hover{
+            background-color: whitesmoke;
+        }
+
+        .headRow{
+            font-weight: bold;
+        }
+    }
+}
