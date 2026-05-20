@@ -1,0 +1,22 @@
+@font-face{
+    font-family: 'Raleway';
+    src: url('../fonts/Raleway.ttf');
+}
+
+:root{
+    /* --primary: #f2c44e;
+    --secondary: #f3db8e;
+    --complementary: rgb(255, 254, 222); */
+}
+
+*{
+    font-family: 'Raleway';
+    
+    box-sizing: border-box;
+
+    transition-duration: 400ms;
+}
+
+body{
+    margin: 0;
+}
