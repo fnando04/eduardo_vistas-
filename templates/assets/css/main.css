@@ -4,17 +4,38 @@
 }
 
 :root{
-    /* --primary: #f2c44e;
-    --secondary: #f3db8e;
-    --complementary: rgb(255, 254, 222); */
+    --purple:        #6C3FC5;
+    --purple-dark:   #4e2d91;
+    --purple-light:  #ede8f9;
+    --sidebar-bg:    #f0eef5;
+    --white:         #ffffff;
+    --gray-100:      #f7f7fa;
+    --gray-200:      #e8e6f0;
+    --gray-400:      #a89fc4;
+    --gray-600:      #6b6282;
+    --gray-800:      #2d2742;
+    --error:         #d7263d;
+    --success:       #1a9e6e;
+
+    --radius:        10px;
+    --transition:    0.22s ease;
+    --shadow-card:   0 8px 32px rgba(108, 63, 197, 0.10);
 }
 
 *{
     font-family: 'Raleway';
-    
     box-sizing: border-box;
-
     transition-duration: 400ms;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
 }
 
 body{

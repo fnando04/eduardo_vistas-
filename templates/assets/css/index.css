@@ -7,24 +7,47 @@ body{
 aside{
     width: 20%;
     height: 100vh;
+    min-width: 220px;
 
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 
-    background-color: whitesmoke;
+    text-align: center;
+    background-color: var(--sidebar-bg);
 
     padding: 1rem;
     gap: 0.5rem;
 
-    img{
-        width: 75%;
+    .avatar{
+        width: 148px;
+        height: 148px;
+        border-radius: 50%;
+        background: var(--white);
+        border: 3px solid var(--gray-200);
 
-        margin: 0 0 10% 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        margin-bottom: 10%;
+
+        img{
+            width: 100%;
+            height: 100%;
+            aspect-ratio: 1/1;
+
+            display: none;
+        }
+        
+        i{
+            font-size: 52px;
+            color: var(--gray-200);
+        }
     }
 
-    button{
+    a{
         width: 100%;
 
         display: flex;
@@ -33,32 +56,51 @@ aside{
 
         border: 0;
         border-radius: 8px;
-
+        color: var(--gray-600);
+        text-decoration: none;
+        background-color: rgba(0, 0, 0, 0);
+        
         padding: 0.5rem;
-
+        
         cursor: pointer;
+
+        svg{
+            stroke: var(--gray-600);
+        }
+    }
+    
+    a:hover{
+        background-color: var(--gray-100);
     }
 
     .settings{
-        margin: 10% 0 0 0;
+        margin-top: 10%;
     }
 
     .signOut{
         color: white;
-        background-color: crimson;
-
+        background-color: var(--purple-dark);
+        
         svg{
             stroke: white;
         }
+    }
+    
+    .signOut:hover{
+        background-color: crimson;
     }
 }
 
 main{
     width: 80%;
 
-    padding: 1rem 2rem;
+    padding: 2rem 3rem;
 
     .table{
+        color: var(--gray-600);
+
+        margin-top: 1rem;
+
         .headRow, .row{
             width: 100%;
 
@@ -91,7 +133,11 @@ main{
         }
 
         .headRow{
+            color: white;
             font-weight: bold;
+
+            border-radius: 10px 10px 0 0;
+            background-color: var(--purple);
         }
     }
 }
