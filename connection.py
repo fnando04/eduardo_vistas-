@@ -1,4 +1,13 @@
 import pymysql
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+
+conexion = credentials.Certificate("../octavo-c-iti-firebase-adminsdk-fbsvc-0b782d0d42.json")
+
+firebase_admin.initialize_app(conexion)
+
+baseDatos = firestore.client()
 
 connection = pymysql.connect(
     host = "127.0.0.1",
@@ -9,12 +18,10 @@ connection = pymysql.connect(
 
 cursor = connection.cursor()
 
-cursor.execute("SELECT * FROM EXP_Asesorado;")
+cursor.execute("SELECT ASO_Usuario FROM EXP_Asesor LIMIT 1;")
 
-results = cursor.fetchall()
+results = cursor.fetchall()[0][0]
 
-for i in results:
-    print(i, "\n")
+statusResult = baseDatos.collection("estados").document(results).get()
 
-#! Al ejecutar funciones que modifiquen los datos, es importante ejecutar:
-# cursor.commit()
+print(results, statusResult.to_dict()["estado"])
