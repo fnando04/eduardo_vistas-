@@ -10,18 +10,17 @@ firebase_admin.initialize_app(conexion)
 baseDatos = firestore.client()
 
 connection = pymysql.connect(
-    host = "127.0.0.1",
+    host = "zephyr.proxy.rlwy.net",
     user = "root",
-    password = "",
-    database = "DB_EXPERT"
+    password = "cKQDfWcxcyPCNyZKywdZfjjLDrBLWLpP",
+    database = "railway",
+    port = 48122
 )
 
 cursor = connection.cursor()
 
-cursor.execute("SELECT ASO_Usuario FROM EXP_Asesor LIMIT 1;")
+cursor.execute("SELECT * FROM EXP_Asesor;")
 
-results = cursor.fetchall()[0][0]
+results = cursor.fetchall()
 
-statusResult = baseDatos.collection("estados").document(results).get()
-
-print(results, statusResult.to_dict()["estado"])
+print(results)

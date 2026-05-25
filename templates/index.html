@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Principal</title>
 
-    <link rel="shortcut icon" href="assets/icons/shortcutIcon.png">
+    <link rel="shortcut icon" href="{{ url_for('static', filename = 'icons/shortcutIcon.png') }}">
 
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/index.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/index.css') }}">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
@@ -136,7 +136,7 @@
             </svg>
         </a>
 
-        <a class="settings" href="edituser.html">
+        <a class="settings" href="">
             <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"

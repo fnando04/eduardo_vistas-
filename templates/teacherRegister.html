@@ -7,10 +7,10 @@
 
     <title>Crear Cuenta Asesor</title>
 
-    <link rel="shortcut icon" href="assets/icons/shortcutIcon.png">
+    <link rel="shortcut icon" href="{{ url_for('static', filename = 'icons/shortcutIcon.png') }}">
 
-    <link rel="stylesheet" href="assets/css/main.css" />
-    <link rel="stylesheet" href="assets/css/teacherRegister.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/main.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/teacherRegister.css') }}" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
@@ -184,7 +184,7 @@
         </main>
     </div>
 
-    <script src="assets/js/teacherRegister.js"></script>
+    <script src="{{ url_for('static', filename = 'js/teacherRegister.js') }}"></script>
 </body>
 
 </html>

@@ -7,10 +7,10 @@
 
     <title>Iniciar Sesión</title>
 
-    <link rel="shortcut icon" href="assets/icons/shortcutIcon.png">
+    <link rel="shortcut icon" href="{{ url_for('static', filename = 'icons/shortcutIcon.png') }}">
 
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/login.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/login.css') }}" />
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
 </head>
@@ -67,7 +67,7 @@
         </p>
     </div>
 
-    <script src="assets/js/login.js"></script>
+    <script src="{{ url_for('static', filename = 'js/login.js') }}"></script>
 </body>
 
 </html>
