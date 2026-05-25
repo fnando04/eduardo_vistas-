@@ -73,6 +73,15 @@ aside{
         background-color: var(--gray-100);
     }
 
+    .selected{
+        font-weight: bold;
+        background-color: var(--gray-200);
+
+        svg{
+            stroke-width: 1.5px;
+        }
+    }
+
     .settings{
         margin-top: 10%;
     }
