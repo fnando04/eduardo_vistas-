@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva cuenta</title>
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename = 'icons/shortcutIcon.png') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/registerSelection.css') }}">
+</head>
+<body>
+    <main>
+        <h1>Seleccionar tipo de cuenta</h1>
+
+        <button onclick="travelTo('/createStudent')">
+            <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#000000"
+            stroke-width="1"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            >
+            <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+            <path d="M10 16.5l2 -3l2 3m-2 -3v-2l3 -1m-6 0l3 1" />
+            <circle cx="12" cy="7.5" r=".5" fill="currentColor" />
+            </svg>
+
+            <h2>Asesorado</h2>
+            <span>Aprenderás viendo cursos.</span>
+        </button>
+        
+        <button onclick="travelTo('/createTeacher')">
+            <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#000000"
+            stroke-width="1"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            >
+            <path d="M5.931 6.936l1.275 4.249m5.607 5.609l4.251 1.275" />
+            <path d="M11.683 12.317l5.759 -5.759" />
+            <path d="M5.5 5.5m-1.5 0a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0 -3 0" />
+            <path d="M18.5 5.5m-1.5 0a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0 -3 0" />
+            <path d="M18.5 18.5m-1.5 0a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0 -3 0" />
+            <path d="M8.5 15.5m-4.5 0a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0 -9 0" />
+            </svg>
+
+            <h2>Asesor</h2>
+            <span>Se encargará de impartir cursos.</span>
+        </button>
+    </main>
+
+    <script src="{{ url_for('static', filename = 'js/registerSelection.js') }}"></script>
+</body>
+</html>

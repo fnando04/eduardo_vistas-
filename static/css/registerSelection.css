@@ -1,0 +1,53 @@
+body{
+    background-color: var(--sidebar-bg);
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+main{
+    width: 60%;
+    height: 100vh;
+    padding: 2rem 3rem;
+    background-color: var(--white);
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    h1{
+        width: 100%;
+    }
+
+    button{
+        width: 48%;
+        aspect-ratio: 1/1;
+        padding: 1rem;
+
+        border: none;
+        color: white;
+        border-radius: 10px;
+        background-color: var(--purple-dark);
+
+        cursor: pointer;
+
+        svg{
+            width: 70%;
+            stroke: white;
+        }
+        
+        h2{
+            margin-bottom: 1rem;
+        }
+    }
+
+    button:hover{
+        background-color: var(--purple);
+
+        svg{
+            width: 75%;
+        }
+    }
+}
