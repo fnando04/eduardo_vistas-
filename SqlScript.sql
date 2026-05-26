@@ -381,3 +381,83 @@ DELIMITER ;
 
 
 
+
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE tspEditarUsuario
+(
+    IN pId          INT,          -- ID del usuario que está logueado
+    IN pTipoUsuario VARCHAR(15),  -- 'ASESORADO' o 'ASESOR'
+    IN pUsuario     VARCHAR(50),  -- Input: Cambiar Usuario
+    IN pNombre      VARCHAR(100), -- Input: Nombre(s)
+    IN pApellidoP   VARCHAR(50),  -- Input: Apellido Paterno
+    IN pApellidoM   VARCHAR(50),  -- Input: Apellido Materno
+    IN pEmail       VARCHAR(50),  -- Input: Cambiar Correo Electrónico
+    IN pContrasenia VARCHAR(60)   -- Input: Cambiar Contraseña
+)
+BEGIN
+    -- Declarar variables para validaciones de duplicados
+    DECLARE vExisteUsuario INT DEFAULT 0;
+    DECLARE vExisteEmail INT DEFAULT 0;
+
+    -- 1. VALIDACIONES PARA ASESORADO
+    IF pTipoUsuario = 'ASESORADO' THEN
+        -- Validar si el nuevo nombre de usuario ya existe en otro registro diferente al suyo
+        SELECT COUNT(*) INTO vExisteUsuario FROM EXP_Asesorado WHERE ASE_Usuario = pUsuario AND ASE_Id != pId;
+        -- Validar si el nuevo correo ya existe en otro registro diferente al suyo
+        SELECT COUNT(*) INTO vExisteEmail FROM EXP_Asesorado WHERE ASE_Email = pEmail AND ASE_Id != pId;
+
+        IF vExisteUsuario > 0 THEN
+            SELECT 'ERROR: El nombre de usuario ya está en uso.' AS Mensaje;
+        ELSEIF vExisteEmail > 0 THEN
+            SELECT 'ERROR: El correo electrónico ya está registrado.' AS Mensaje;
+        ELSE
+            -- Ejecutar la actualización en la tabla de asesorados
+            UPDATE EXP_Asesorado
+            SET 
+                ASE_Nombre = pNombre,
+                ASE_ApellidoP = pApellidoP,
+                ASE_ApellidoM = pApellidoM,
+                ASE_Usuario = pUsuario,
+                ASE_Email = pEmail,
+                ASE_Contrasenia = IF(pContrasenia = '' OR pContrasenia IS NULL, ASE_Contrasenia, pContrasenia)
+            WHERE ASE_Id = pId;
+
+            SELECT 'ÉXITO: Perfil de Asesorado actualizado correctamente.' AS Mensaje;
+        END IF;
+
+    -- 2. VALIDACIONES PARA ASESOR
+    ELSEIF pTipoUsuario = 'ASESOR' THEN
+        -- Validar duplicados en la tabla de asesores
+        SELECT COUNT(*) INTO vExisteUsuario FROM EXP_Asesor WHERE ASO_Usuario = pUsuario AND ASO_Id != pId;
+        SELECT COUNT(*) INTO vExisteEmail FROM EXP_Asesor WHERE ASO_Email = pEmail AND ASO_Id != pId;
+
+        IF vExisteUsuario > 0 THEN
+            SELECT 'ERROR: El nombre de usuario ya está en uso.' AS Mensaje;
+        ELSEIF vExisteEmail > 0 THEN
+            SELECT 'ERROR: El correo electrónico ya está registrado.' AS Mensaje;
+        ELSE
+            -- Ejecutar la actualización en la tabla de asesores
+            UPDATE EXP_Asesor
+            SET 
+                ASO_Nombre = pNombre,
+                ASO_ApellidoP = pApellidoP,
+                ASO_ApellidoM = pApellidoM,
+                ASO_Usuario = pUsuario,
+                ASO_Email = pEmail,
+                ASO_Contrasenia = IF(pContrasenia = '' OR pContrasenia IS NULL, ASO_Contrasenia, pContrasenia)
+            WHERE ASO_Id = pId;
+
+            SELECT 'ÉXITO: Perfil de Asesorado actualizado correctamente.' AS Mensaje;
+        END IF;
+    ELSE
+        SELECT 'ERROR: Tipo de usuario no válido.' AS Mensaje;
+    END IF;
+
+END $$
+
+DELIMITER ;
+
