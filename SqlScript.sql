@@ -318,3 +318,66 @@ DELIMITER ;
 
 
 
+-- PROCEDIMIENTO PARA REGISTRAR ASESORADO -- 
+
+DELIMITER $$
+
+CREATE PROCEDURE tspRegistrarAsesorado
+(
+    IN pNombre VARCHAR(100),
+    IN pApellidoP VARCHAR(50),
+    IN pUsuario VARCHAR(50),
+    IN pEmail VARCHAR(50),
+    IN pContrasenia VARCHAR(255)
+)
+BEGIN
+
+    -- Verificar si el usuario ya existe
+    IF EXISTS(
+        SELECT 1
+        FROM EXP_Asesorado
+        WHERE ASE_Usuario = pUsuario
+    ) THEN
+
+        SELECT 'El usuario ya existe' AS Mensaje;
+
+    -- Verificar si el correo ya existe
+    ELSEIF EXISTS(
+        SELECT 1
+        FROM EXP_Asesorado
+        WHERE ASE_Email = pEmail
+    ) THEN
+
+        SELECT 'El correo ya está registrado' AS Mensaje;
+
+    ELSE
+
+        INSERT INTO EXP_Asesorado
+        (
+            ASE_Nombre,
+            ASE_ApellidoP,
+            ASE_ApellidoM,
+            ASE_Usuario,
+            ASE_Email,
+            ASE_Contrasenia
+        )
+        VALUES
+        (
+            pNombre,
+            pApellidoP,
+            '',
+            pUsuario,
+            pEmail,
+            pContrasenia
+        );
+
+        SELECT 'Usuario registrado correctamente' AS Mensaje;
+
+    END IF;
+
+END $$
+
+DELIMITER ;
+
+
+
