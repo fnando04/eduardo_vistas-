@@ -251,7 +251,6 @@ CREATE PROCEDURE tspIniciarSesion
     IN pContrasenia VARCHAR(60)
 )
 BEGIN
-
     -- Buscar en asesorados
     IF EXISTS (
         SELECT 1
@@ -310,6 +309,7 @@ CREATE PROCEDURE tspRegistrarAsesorado
 (
     IN pNombre VARCHAR(100),
     IN pApellidoP VARCHAR(50),
+    IN pApellidoM VARCHAR(50),
     IN pUsuario VARCHAR(50),
     IN pEmail VARCHAR(50),
     IN pContrasenia VARCHAR(255)
@@ -349,7 +349,7 @@ BEGIN
         (
             pNombre,
             pApellidoP,
-            '',
+            pApellidoM,
             pUsuario,
             pEmail,
             pContrasenia

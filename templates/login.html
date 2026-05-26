@@ -21,14 +21,14 @@
 
         <div class="error-msg" id="error-msg">
             <i class="ti ti-alert-circle"></i>
-            <span id="error-text">Por favor completa todos los campos.</span>
+            <span id="error-text">{{ alert }}</span>
         </div>
 
         <div class="field-group">
-            <label class="field-label" for="email">CORREO ELECTRÓNICO</label>
+            <label class="field-label" for="email">USUARIO</label>
             <div class="field-wrap">
                 <i class="ti ti-mail field-icon"></i>
-                <input type="email" id="email" placeholder="tu@correo.com" autocomplete="email" />
+                <input type="text" id="email" placeholder="Usuario" autocomplete="email" />
             </div>
         </div>
 
@@ -65,5 +65,11 @@
     </div>
 
     <script src="{{ url_for('static', filename = 'js/login.js') }}"></script>
+
+    {% if alert %}
+    <script>
+        showMessage();
+    </script>
+    {% endif %}
 </body>
 </html>
