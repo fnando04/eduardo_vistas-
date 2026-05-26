@@ -16,11 +16,11 @@ document.getElementById('btn-ingresar').addEventListener('click', () => {
     const errText = document.getElementById('error-text');
 
     if (!email || !pass) {
-    errText.textContent = 'Por favor completa todos los campos.';
-    errBox.style.display = 'flex';
+        errText.textContent = 'Por favor completa todos los campos.';
+        errBox.style.display = 'flex';
     } else {
-    errBox.style.display = 'none';
-    // Aquí conectas tu lógica de autenticación
-    console.log('Iniciando sesión con:', email);
+        errBox.style.display = 'none';
+
+        location.href = "/login";
     }
 });
