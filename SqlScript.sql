@@ -362,14 +362,7 @@ BEGIN
 END $$
 DELIMITER ;
 
-
-
-
-
-
-
 DELIMITER $$
-
 CREATE PROCEDURE tspEditarUsuario
 (
     IN pId          INT,          -- ID del usuario que está logueado
@@ -439,8 +432,5 @@ BEGIN
     ELSE
         SELECT 'ERROR: Tipo de usuario no válido.' AS Mensaje;
     END IF;
-
 END $$
-
 DELIMITER ;
-
