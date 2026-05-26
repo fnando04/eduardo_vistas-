@@ -63,10 +63,6 @@ function validateForm() {
     const correo = document.getElementById("correo").value.trim();
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
-    const cuota = document.getElementById("cuota").value;
-    /* const fechaNacimiento = document.getElementById("fechaNacimiento").value; */
-    const categoria = document.getElementById("categoria").value;
-    const temaClase = document.getElementById("temaClase").value.trim();
 
     if (!nombres) {
         showError("nombres", "El nombre es requerido.");
@@ -91,8 +87,8 @@ function validateForm() {
         valid = false;
     }
     
-    if (!correo) {
-        showError("correo", "El correo es requerido");
+    if (!usuario) {
+        showError("correo", "El correo es requerido.");
         valid = false;
     }
 
@@ -112,11 +108,6 @@ function validateForm() {
         valid = false;
     }
 
-    if (cuota === "" || isNaN(cuota) || Number(cuota) < 0) {
-        showError("cuota", "Ingresa una cuota válida.");
-        valid = false;
-    }
-
     /* if (!fechaNacimiento) {
         showError("fechaNacimiento", "La fecha de nacimiento es requerida.");
         valid = false;
@@ -129,16 +120,6 @@ function validateForm() {
             valid = false;
         }
     } */
-
-    if (!categoria) {
-        showError("categoria", "Selecciona una categoría.");
-        valid = false;
-    }
-
-    if (!temaClase) {
-        showError("temaClase", "El tema de la clase es requerido.");
-        valid = false;
-    }
 
     return valid;
 }
@@ -173,12 +154,9 @@ document.getElementById("btnCrear").addEventListener("click", async () => {
         usuario: document.getElementById("usuario").value.trim(),
         correo: document.getElementById("correo").value.trim(),
         password: document.getElementById("password").value,
-        cuota: parseFloat(document.getElementById("cuota").value),
         /* fecha_nacimiento: document.getElementById("fechaNacimiento").value, */
-        categoria: document.getElementById("categoria").value,
-        tema_clase: document.getElementById("temaClase").value.trim(),
         foto: photoBase64 || null,
-        tipo: "asesor"
+        tipo: "asesorado"
     };
 
     try {
@@ -209,7 +187,7 @@ document.getElementById("btnCrear").addEventListener("click", async () => {
 
 function resetForm() {
     ["nombres", "apellidoP", "apellidoM", "usuario", "correo", "password", "confirmPassword",
-        "cuota", /* "fechaNacimiento", */ "categoria", "temaClase"].forEach(id => {
+        /* "fechaNacimiento" */].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.value = "";
         });

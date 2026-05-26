@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Crear Cuenta Asesor</title>
+    <title>Crear Cuenta Asesorado</title>
 
     <link rel="shortcut icon" href="{{ url_for('static', filename = 'icons/shortcutIcon.png') }}">
 
@@ -36,8 +36,8 @@
 
         <main class="form-panel">
             <div class="form-header">
-                <h1 class="form-title">CREA TU CUENTA ASESOR</h1>
-                <p class="form-subtitle">Completa los datos para registrarte como asesor</p>
+                <h1 class="form-title">CREA TU CUENTA ASESORADO</h1>
+                <p class="form-subtitle">Completa los datos para registrarte como asesorado</p>
             </div>
 
             <div id="alertBox" class="alert hidden"></div>
@@ -91,7 +91,7 @@
                     
                     <!-- Correo -->
                     <div class="field-group">
-                        <label class="field-label" for="correo">Correo</label>
+                        <label class="field-label" for="usuario">Correo</label>
                         <div class="input-wrap">
                             <input type="email" id="correo" class="field-input" placeholder="tu@email.com"
                                 autocomplete="off" />
@@ -126,7 +126,7 @@
                     </div>
                 </div>
 
-                <div class="form-row one-col">
+                <!-- <div class="form-row one-col"> -->
                     <!-- Fecha de nacimiento -->
                     <!-- <div class="field-group">
                         <label class="field-label" for="fechaNacimiento">Fecha de nacimiento</label>
@@ -135,48 +135,8 @@
                             <span class="input-icon"><i class="fas fa-calendar-alt"></i></span>
                         </div>
                         <span class="field-error" id="err-fechaNacimiento"></span>
-                    </div> -->
-
-                    <!-- Cuota -->
-                    <div class="field-group">
-                        <label class="field-label" for="cuota">Cuota</label>
-                        <div class="input-wrap">
-                            <input type="number" id="cuota" class="field-input" placeholder="$0.00" min="0" step="0.01" />
-                        </div>
-                        <span class="field-error" id="err-cuota"></span>
                     </div>
-                </div>
-
-                <div class="form-row two-col">
-                    <!-- Categoría -->
-                    <div class="field-group">
-                        <label class="field-label" for="categoria">Categoría</label>
-                        <div class="input-wrap select-wrap">
-                            <select id="categoria" class="field-input field-select">
-                                <option value="">Selecciona una categoría</option>
-                                <option value="matematicas">Matemáticas</option>
-                                <option value="ciencias">Ciencias</option>
-                                <option value="idiomas">Idiomas</option>
-                                <option value="historia">Historia</option>
-                                <option value="arte">Arte</option>
-                                <option value="tecnologia">Tecnología</option>
-                                <option value="otro">Otro</option>
-                            </select>
-                            <span class="input-icon"><i class="fas fa-chevron-down"></i></span>
-                        </div>
-                        <span class="field-error" id="err-categoria"></span>
-                    </div>
-
-                    <!-- Tema de la clase -->
-                    <div class="field-group">
-                        <label class="field-label" for="temaClase">Tema de la clase</label>
-                        <div class="input-wrap">
-                            <input type="text" id="temaClase" class="field-input"
-                                placeholder="Ej: Álgebra, Inglés básico..." />
-                        </div>
-                        <span class="field-error" id="err-temaClase"></span>
-                    </div>
-                </div>
+                </div> -->
 
                 <div class="form-row submit-row">
                     <button class="btn-submit" id="btnCrear" type="button">
@@ -194,7 +154,7 @@
         </main>
     </div>
 
-    <script src="{{ url_for('static', filename = 'js/teacherRegister.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'js/studentRegister.js') }}"></script>
 </body>
 
 </html>

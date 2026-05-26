@@ -244,16 +244,7 @@ BEGIN
 END $$
 DELIMITER ;
 
-SELECT * FROM EXP_Asesoria;
-
-
-
-
-
-
-
 DELIMITER $$
-
 CREATE PROCEDURE tspIniciarSesion
 (
     IN pUsuario VARCHAR(50),
@@ -311,17 +302,10 @@ BEGIN
     END IF;
 
 END $$
-
 DELIMITER ;
 
-
-
-
-
 -- PROCEDIMIENTO PARA REGISTRAR ASESORADO -- 
-
 DELIMITER $$
-
 CREATE PROCEDURE tspRegistrarAsesorado
 (
     IN pNombre VARCHAR(100),
@@ -376,8 +360,6 @@ BEGIN
     END IF;
 
 END $$
-
 DELIMITER ;
-
 
 
