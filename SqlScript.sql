@@ -245,3 +245,74 @@ END $$
 DELIMITER ;
 
 SELECT * FROM EXP_Asesoria;
+
+
+
+
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE tspIniciarSesion
+(
+    IN pUsuario VARCHAR(50),
+    IN pContrasenia VARCHAR(60)
+)
+BEGIN
+
+    -- Buscar en asesorados
+    IF EXISTS (
+        SELECT 1
+        FROM EXP_Asesorado
+        WHERE (ASE_Usuario = pUsuario OR ASE_Email = pUsuario)
+        AND ASE_Contrasenia = pContrasenia
+    ) THEN
+
+        SELECT
+            ASE_Id AS Id,
+            ASE_Nombre AS Nombre,
+            ASE_ApellidoP AS ApellidoPaterno,
+            ASE_ApellidoM AS ApellidoMaterno,
+            ASE_Usuario AS Usuario,
+            ASE_Email AS Email,
+            'ASESORADO' AS TipoUsuario
+        FROM EXP_Asesorado
+        WHERE (ASE_Usuario = pUsuario OR ASE_Email = pUsuario)
+        AND ASE_Contrasenia = pContrasenia;
+
+    -- Buscar en asesores
+    ELSEIF EXISTS (
+        SELECT 1
+        FROM EXP_Asesor
+        WHERE (ASO_Usuario = pUsuario OR ASO_Email = pUsuario)
+        AND ASO_Contrasenia = pContrasenia
+    ) THEN
+
+        SELECT
+            ASO_Id AS Id,
+            ASO_Nombre AS Nombre,
+            ASO_ApellidoP AS ApellidoPaterno,
+            ASO_ApellidoM AS ApellidoMaterno,
+            ASO_Usuario AS Usuario,
+            ASO_Email AS Email,
+            ASO_Tarifa AS Tarifa,
+            'ASESOR' AS TipoUsuario
+        FROM EXP_Asesor
+        WHERE (ASO_Usuario = pUsuario OR ASO_Email = pUsuario)
+        AND ASO_Contrasenia = pContrasenia;
+
+    ELSE
+
+        SELECT
+            0 AS Id,
+            'Usuario o contraseña incorrectos' AS Mensaje;
+
+    END IF;
+
+END $$
+
+DELIMITER ;
+
+
+
