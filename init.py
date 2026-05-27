@@ -2,6 +2,7 @@
 import pymysql
 
 from flask import Flask
+from flask import request
 from flask import render_template
 
 from markupsafe import escape
@@ -37,8 +38,14 @@ def index():
         return render_template('login.html', alert = "")
 
 # Se ejecuta al pulsar "iniciar sesión" en el Login
-@app.route("/login/<string:user>/<string:password>")
-def login(user, password):
+@app.route("/login", methods=["POST"])
+def login():
+    user = request.form["email"]
+    password = request.form["password"]
+
+    if(user == "" or password == ""):
+        return render_template('login.html', alert = "Por favor completar los campos")
+
     cursor.callproc("tspIniciarSesion", [user, password])
     query = cursor.fetchall()[0]
 

@@ -13,19 +13,3 @@ toggleBtn.addEventListener('click', () => {
     eyeIcon.className = show ? 'ti ti-eye-off' : 'ti ti-eye';
     toggleBtn.setAttribute('aria-label', show ? 'Ocultar contraseña' : 'Mostrar contraseña');
 });
-
-document.getElementById('btn-ingresar').addEventListener('click', () => {
-    const email = document.getElementById('email').value.trim();
-    const pass = pwInput.value;
-    const errBox = document.getElementById('error-msg');
-    const errText = document.getElementById('error-text');
-    
-    if (!email || !pass) {
-        showMessage();
-        errText.textContent = "Por favor, completa los campos";
-    } else {
-        errBox.style.display = 'none';
-
-        location.href = "/login/" + email + "/" + pass;
-    }
-});
