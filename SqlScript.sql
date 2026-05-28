@@ -1,7 +1,7 @@
 /* BASE DE DATOS */
 CREATE DATABASE DB_EXPERT;
 USE DB_EXPERT;
-
+SELECT * FROM EXP_Asesorado;
 /* TABLAS */
 CREATE TABLE EXP_Asesorado(
 	ASE_Id				INT					AUTO_INCREMENT,
@@ -271,8 +271,8 @@ BEGIN
             ASO_ApellidoM AS ApellidoMaterno,
             ASO_Usuario AS Usuario,
             ASO_Email AS Email,
-            ASO_Tarifa AS Tarifa,
-            'ASESOR' AS TipoUsuario
+            'ASESOR' AS TipoUsuario,
+            ASO_Tarifa AS Tarifa
         FROM EXP_Asesor
         WHERE (ASO_Usuario = pUsuario OR ASO_Email = pUsuario)
         AND ASO_Contrasenia = pContrasenia;

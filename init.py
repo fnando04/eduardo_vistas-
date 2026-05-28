@@ -49,7 +49,7 @@ def login():
     # ID -> query[0]
     # Name -> [1]
     # User -> [4]
-    # Role -> query[7]
+    # Role -> query[6]
 
     # Verificamos si se encontró algo
     if(query[0] != 0):
@@ -60,7 +60,7 @@ def login():
         
         id = query[0]
         name = query[1]
-        role = query[7]
+        role = query[6]
 
         return render_template('index.html', person = name)
     else:
@@ -85,8 +85,6 @@ def createTeacher():
 def registerAccount():
     data = request.get_json()
 
-    print(data)
-
     names = data["nombres"]
     lastNameP = data["apellidoP"]
     lastNameM = data["apellidoM"]
@@ -100,8 +98,15 @@ def registerAccount():
         cursor.callproc("tspRegistrarAsesor", [names, lastNameP, lastNameM, user, email, password, fee])
         query = cursor.fetchall()[0]
 
-        print(query)
-        print(query[0])
+        if(query[0] == 'El usuario ya existe' or query[0] == 'El correo ya está registrado'):
+            return jsonify({
+                "success": False,
+                "message": query[0]
+            })
+    
+    if(temRole == "asesorado"):
+        cursor.callproc("tspRegistrarAsesorado", [names, lastNameP, lastNameM, user, email, password])
+        query = cursor.fetchall()[0]
 
         if(query[0] == 'El usuario ya existe' or query[0] == 'El correo ya está registrado'):
             return jsonify({

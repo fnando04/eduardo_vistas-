@@ -69,16 +69,6 @@ function validateForm() {
         valid = false;
     }
 
-    if (!apellidoP) {
-        showError("apellidoP", "El apellido paterno es requerido.");
-        valid = false;
-    }
-
-    if (!apellidoM) {
-        showError("apellidoM", "El apellido materno es requerido.");
-        valid = false;
-    }
-
     if (!usuario) {
         showError("usuario", "El nombre de usuario es requerido.");
         valid = false;
@@ -154,27 +144,28 @@ document.getElementById("btnCrear").addEventListener("click", async () => {
         usuario: document.getElementById("usuario").value.trim(),
         correo: document.getElementById("correo").value.trim(),
         password: document.getElementById("password").value,
+        cuota: null,
         /* fecha_nacimiento: document.getElementById("fechaNacimiento").value, */
         foto: photoBase64 || null,
-        tipo: "asesorado"
+        rol: "asesorado"
     };
 
     try {
-        const response = await fetch(API_URL, {
+        fetch("/registerAccount", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
+        }).then(r => r.json())
+        .then(data => {
+
+            if(!data.success){
+                showAlert(data.message, "error");
+            } else {
+                showAlert(data.message, "success");
+
+                location.href = "/";
+            }
         });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            showAlert("¡Cuenta creada exitosamente! Ya puedes iniciar sesión.", "success");
-            resetForm();
-        } else {
-            showAlert(data.message || "Ocurrió un error al crear la cuenta.", "error");
-        }
-
     } catch (error) {
         console.error("Error de red:", error);
         showAlert("No se pudo conectar con el servidor. Verifica tu conexión.", "error");
