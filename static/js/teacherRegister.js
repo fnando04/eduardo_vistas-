@@ -65,21 +65,11 @@ function validateForm() {
     const confirmPassword = document.getElementById("confirmPassword").value;
     const cuota = document.getElementById("cuota").value;
     /* const fechaNacimiento = document.getElementById("fechaNacimiento").value; */
-    const categoria = document.getElementById("categoria").value;
-    const temaClase = document.getElementById("temaClase").value.trim();
+    /* const categoria = document.getElementById("categoria").value;
+    const temaClase = document.getElementById("temaClase").value.trim(); */
 
     if (!nombres) {
         showError("nombres", "El nombre es requerido.");
-        valid = false;
-    }
-
-    if (!apellidoP) {
-        showError("apellidoP", "El apellido paterno es requerido.");
-        valid = false;
-    }
-
-    if (!apellidoM) {
-        showError("apellidoM", "El apellido materno es requerido.");
         valid = false;
     }
 
@@ -130,7 +120,7 @@ function validateForm() {
         }
     } */
 
-    if (!categoria) {
+    /* if (!categoria) {
         showError("categoria", "Selecciona una categoría.");
         valid = false;
     }
@@ -138,7 +128,7 @@ function validateForm() {
     if (!temaClase) {
         showError("temaClase", "El tema de la clase es requerido.");
         valid = false;
-    }
+    } */
 
     return valid;
 }
@@ -175,28 +165,28 @@ document.getElementById("btnCrear").addEventListener("click", async () => {
         password: document.getElementById("password").value,
         cuota: parseFloat(document.getElementById("cuota").value),
         /* fecha_nacimiento: document.getElementById("fechaNacimiento").value, */
-        categoria: document.getElementById("categoria").value,
-        tema_clase: document.getElementById("temaClase").value.trim(),
+        /* categoria: document.getElementById("categoria").value,
+        tema_clase: document.getElementById("temaClase").value.trim(), */
         foto: photoBase64 || null,
-        tipo: "asesor"
+        rol: "asesor"
     };
 
     try {
-        const response = await fetch(API_URL, {
+        fetch("/registerAccount", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
+        }).then(r => r.json())
+        .then(data => {
+
+            if(!data.success){
+                showAlert(data.message, "error");
+            } else {
+                showAlert(data.message, "success");
+
+                location.href = "/";
+            }
         });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            showAlert("¡Cuenta creada exitosamente! Ya puedes iniciar sesión.", "success");
-            resetForm();
-        } else {
-            showAlert(data.message || "Ocurrió un error al crear la cuenta.", "error");
-        }
-
     } catch (error) {
         console.error("Error de red:", error);
         showAlert("No se pudo conectar con el servidor. Verifica tu conexión.", "error");
@@ -208,8 +198,7 @@ document.getElementById("btnCrear").addEventListener("click", async () => {
 });
 
 function resetForm() {
-    ["nombres", "apellidoP", "apellidoM", "usuario", "correo", "password", "confirmPassword",
-        "cuota", /* "fechaNacimiento", */ "categoria", "temaClase"].forEach(id => {
+    ["nombres", "usuario", "correo", "password", "confirmPassword", "cuota", /* "fechaNacimiento", */ /* "categoria", "temaClase" */].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.value = "";
         });

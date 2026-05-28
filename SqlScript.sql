@@ -210,22 +210,9 @@ VALUES
 
 /* PROCEDIMIENTOS ALMACENADOS */
 DELIMITER $$
-CREATE PROCEDURE tspCrearUsuario
-(
-    Nombre			NVARCHAR(100), 
-    ApellidoP		NVARCHAR(50),
-    ApellidoM		NVARCHAR(50),
-    Usuario			NVARCHAR(50),
-    Email			NVARCHAR(50),
-    Contrasenia		NVARCHAR(60),
-    Tarifa 			FLOAT
-)
+CREATE PROCEDURE tspRevisarTemas()
 BEGIN
-	IF(Tarifa != NULL) THEN
-		INSERT INTO EXP_Asesor VALUES("0", Nombre, ApellidoP, ApellidoM, Usuario, Email, Contrasenia, Tarifa);
-	ELSE
-		INSERT INTO EXP_Asesorado VALUES("0", Nombre, ApellidoP, ApellidoM, Usuario, Email, Contrasenia);
-	END IF;
+	SELECT * FROM EXP_Tema;
 END $$
 DELIMITER ;
 
@@ -258,7 +245,6 @@ BEGIN
         WHERE (ASE_Usuario = pUsuario OR ASE_Email = pUsuario)
         AND ASE_Contrasenia = pContrasenia
     ) THEN
-
         SELECT
             ASE_Id AS Id,
             ASE_Nombre AS Nombre,
@@ -278,7 +264,6 @@ BEGIN
         WHERE (ASO_Usuario = pUsuario OR ASO_Email = pUsuario)
         AND ASO_Contrasenia = pContrasenia
     ) THEN
-
         SELECT
             ASO_Id AS Id,
             ASO_Nombre AS Nombre,
@@ -291,15 +276,11 @@ BEGIN
         FROM EXP_Asesor
         WHERE (ASO_Usuario = pUsuario OR ASO_Email = pUsuario)
         AND ASO_Contrasenia = pContrasenia;
-
     ELSE
-
         SELECT
             0 AS Id,
             'Usuario o contraseña incorrectos' AS Mensaje;
-
     END IF;
-
 END $$
 DELIMITER ;
 
@@ -315,7 +296,6 @@ CREATE PROCEDURE tspRegistrarAsesorado
     IN pContrasenia VARCHAR(255)
 )
 BEGIN
-
     -- Verificar si el usuario ya existe
     IF EXISTS(
         SELECT 1
@@ -333,9 +313,7 @@ BEGIN
     ) THEN
 
         SELECT 'El correo ya está registrado' AS Mensaje;
-
     ELSE
-
         INSERT INTO EXP_Asesorado
         (
             ASE_Nombre,
@@ -355,10 +333,66 @@ BEGIN
             pContrasenia
         );
 
-        SELECT 'Usuario registrado correctamente' AS Mensaje;
-
+        -- Devuelve el ID del nuevo usuario
+        SELECT MAX(ASE_ID) FROM EXP_Asesorado;
     END IF;
+END $$
+DELIMITER ;
 
+DELIMITER $$
+CREATE PROCEDURE tspRegistrarAsesor
+(
+    IN pNombre VARCHAR(100),
+    IN pApellidoP VARCHAR(50),
+    IN pApellidoM VARCHAR(50),
+    IN pUsuario VARCHAR(50),
+    IN pEmail VARCHAR(50),
+    IN pContrasenia VARCHAR(255),
+    IN pTarifa		FLOAT
+)
+BEGIN
+    -- Verificar si el usuario ya existe
+    IF EXISTS(
+        SELECT 1
+        FROM EXP_Asesor
+        WHERE ASO_Usuario = pUsuario
+    ) THEN
+
+        SELECT 'El usuario ya existe' AS Mensaje;
+
+    -- Verificar si el correo ya existe
+    ELSEIF EXISTS(
+        SELECT 1
+        FROM EXP_Asesor
+        WHERE ASO_Email = pEmail
+    ) THEN
+
+        SELECT 'El correo ya está registrado' AS Mensaje;
+    ELSE
+        INSERT INTO EXP_Asesor
+        (
+            ASO_Nombre,
+            ASO_ApellidoP,
+            ASO_ApellidoM,
+            ASO_Usuario,
+            ASO_Email,
+            ASO_Contrasenia,
+            ASO_Tarifa
+        )
+        VALUES
+        (
+            pNombre,
+            pApellidoP,
+            pApellidoM,
+            pUsuario,
+            pEmail,
+            pContrasenia,
+            pTarifa
+        );
+
+		-- Devuelve el ID del nuevo usuario
+        SELECT MAX(ASO_ID) FROM EXP_Asesor;
+    END IF;
 END $$
 DELIMITER ;
 

@@ -1,11 +1,7 @@
 """ LIBRERÍAS """
 import pymysql
 
-from flask import Flask
-from flask import request
-from flask import render_template
-
-from markupsafe import escape
+from flask import Flask, jsonify, request, render_template
 
 """ VARIABLES GLOBALES """
 app = Flask(__name__)
@@ -38,7 +34,7 @@ def index():
         return render_template('login.html', alert = "")
 
 # Se ejecuta al pulsar "iniciar sesión" en el Login
-@app.route("/login", methods=["POST"])
+@app.route("/login", methods = ["POST"])
 def login():
     user = request.form["email"]
     password = request.form["password"]
@@ -51,6 +47,7 @@ def login():
 
     # El procedimiento almacenado devuelve un select de toda la fila del usuario.
     # ID -> query[0]
+    # Name -> [1]
     # User -> [4]
     # Role -> query[7]
 
@@ -62,7 +59,7 @@ def login():
         global role
         
         id = query[0]
-        name = query[4]
+        name = query[1]
         role = query[7]
 
         return render_template('index.html', person = name)
@@ -82,4 +79,47 @@ def createStudent():
 # Redirije a la ventana de crear asesor (maestro)
 @app.route("/createTeacher")
 def createTeacher():
-    return render_template('teacherRegister.html')
+    return render_template('teacherRegister.html', alert = "")
+
+@app.route("/registerAccount", methods=["POST"])
+def registerAccount():
+    data = request.get_json()
+
+    print(data)
+
+    names = data["nombres"]
+    lastNameP = data["apellidoP"]
+    lastNameM = data["apellidoM"]
+    user = data["usuario"]
+    email = data["correo"]
+    password = data["password"]
+    fee = data["cuota"]
+    temRole = data["rol"]
+    
+    if(temRole == "asesor"):
+        cursor.callproc("tspRegistrarAsesor", [names, lastNameP, lastNameM, user, email, password, fee])
+        query = cursor.fetchall()[0]
+
+        print(query)
+        print(query[0])
+
+        if(query[0] == 'El usuario ya existe' or query[0] == 'El correo ya está registrado'):
+            return jsonify({
+                "success": False,
+                "message": query[0]
+            })
+        
+    connection.commit()
+    
+    global id
+    global name
+    global role
+    
+    id = query[0]
+    name = names
+    role = temRole
+
+    return jsonify({
+        "success": True,
+        "message": "Usuario creado exitosamente"
+    })
