@@ -128,3 +128,15 @@ def registerAccount():
         "success": True,
         "message": "Usuario creado exitosamente"
     })
+
+@app.route("/closeSession")
+def closeSession():
+    global id
+    global name
+    global role
+    
+    id = 0
+    name = ""
+    role = ""
+
+    return render_template('login.html', alert = "")
