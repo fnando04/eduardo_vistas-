@@ -15,7 +15,7 @@ role = ""
 connection = pymysql.connect(
     host = "127.0.0.1",
     user = "root",
-    password = "",
+    password = "12345",
     database = "DB_EXPERT",
     port = 3306
 )

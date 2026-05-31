@@ -77,8 +77,13 @@ function validateForm() {
         valid = false;
     }
     
-    if (!usuario) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+    if (!correo) {
         showError("correo", "El correo es requerido.");
+        valid = false;
+    } else if (!emailRegex.test(correo)) {
+        showError("correo", "Ingresa un correo con dominio válido (ej. usuario@gmail.com).");
         valid = false;
     }
 
