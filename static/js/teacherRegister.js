@@ -1,37 +1,37 @@
 const API_URL = "http://localhost:5000/api/asesores";
 
+// ─── Toggle visibilidad contraseña ───────────────────────────────────────────
 document.querySelectorAll(".toggle-visibility").forEach(btn => {
     btn.addEventListener("click", () => {
         const targetId = btn.dataset.target;
         const input = document.getElementById(targetId);
         const icon = btn.querySelector("i");
         if (!input) return;
-
         if (input.type === "password") {
             input.type = "text";
             icon.classList.replace("fa-eye", "fa-eye-slash");
-        } else if (input.type === "text") {
+        } else {
             input.type = "password";
             icon.classList.replace("fa-eye-slash", "fa-eye");
         }
     });
 });
 
+// ─── Avatar ───────────────────────────────────────────────────────────────────
 const avatarCircle = document.getElementById("avatarPreview");
-const photoInput = document.getElementById("photoInput");
-const avatarImg = document.getElementById("avatarImg");
-const avatarIcon = document.getElementById("avatarIcon");
-let photoBase64 = null;
+const photoInput   = document.getElementById("photoInput");
+const avatarImg    = document.getElementById("avatarImg");
+const avatarIcon   = document.getElementById("avatarIcon");
+let photoBase64    = null;
 
 avatarCircle.addEventListener("click", () => photoInput.click());
 
 photoInput.addEventListener("change", () => {
     const file = photoInput.files[0];
     if (!file) return;
-
     const reader = new FileReader();
     reader.onload = e => {
-        photoBase64 = e.target.result; // complete base64
+        photoBase64 = e.target.result;
         avatarImg.src = photoBase64;
         avatarImg.style.display = "block";
         avatarIcon.style.display = "none";
@@ -39,12 +39,70 @@ photoInput.addEventListener("change", () => {
     reader.readAsDataURL(file);
 });
 
-/* VALIDACIÓN DE CAMPOS */
+// ─── Cargar temas desde Flask al abrir la página ─────────────────────────────
+let temasDisponibles = [];
+
+async function cargarTemas() {
+    const grid = document.getElementById("temasGrid");
+    try {
+        const res  = await fetch("/api/temas");
+        const data = await res.json();
+
+        if (!data.success || !data.temas.length) {
+            grid.innerHTML = '<p class="temas-loading">No hay temas disponibles.</p>';
+            return;
+        }
+
+        temasDisponibles = data.temas;
+        renderizarTemas(temasDisponibles);
+    } catch (e) {
+        grid.innerHTML = '<p class="temas-loading" style="color:red;">Error al cargar temas.</p>';
+    }
+}
+
+function renderizarTemas(temas) {
+    const grid = document.getElementById("temasGrid");
+    if (!temas.length) {
+        grid.innerHTML = '<p class="temas-loading">Sin resultados.</p>';
+        return;
+    }
+    grid.innerHTML = temas.map(t => `
+        <label class="tema-chip" for="tema-${t.Id}">
+            <input type="checkbox" id="tema-${t.Id}" value="${t.Id}" class="tema-checkbox" />
+            <span class="tema-nombre">${t.Nombre}</span>
+            <span class="tema-nivel">${"★".repeat(t.Complejidad)}</span>
+        </label>
+    `).join("");
+}
+
+// Contador de temas seleccionados
+function actualizarContador() {
+    const n = getTemasSeleccionados().length;
+    const el = document.getElementById("temasCounter");
+    if (!el) return;
+    el.textContent = n === 0 ? "" : `${n} tema${n > 1 ? "s" : ""} seleccionado${n > 1 ? "s" : ""}`;
+}
+
+document.addEventListener("change", e => {
+    if (e.target.classList.contains("tema-checkbox")) actualizarContador();
+});
+
+// Buscador en tiempo real
+document.getElementById("buscadorTemas").addEventListener("input", function () {
+    const q = this.value.trim().toLowerCase();
+    const filtrados = temasDisponibles.filter(t => t.Nombre.toLowerCase().includes(q));
+    renderizarTemas(filtrados);
+});
+
+// Cargar al inicio
+cargarTemas();
+
+// ─── Helpers de validación ───────────────────────────────────────────────────
 function showError(id, msg) {
     const input = document.getElementById(id);
-    const err = document.getElementById("err-" + id);
+    const err   = document.getElementById("err-" + id);
     if (input) input.classList.add("is-error");
-    if (err) err.textContent = msg;
+    if (err)   err.textContent = msg;
 }
 
 function clearErrors() {
@@ -52,21 +110,22 @@ function clearErrors() {
     document.querySelectorAll(".field-error").forEach(el => el.textContent = "");
 }
 
+function getTemasSeleccionados() {
+    return [...document.querySelectorAll(".tema-checkbox:checked")].map(cb => parseInt(cb.value));
+}
+
+// ─── Validación del formulario ───────────────────────────────────────────────
 function validateForm() {
     clearErrors();
     let valid = true;
 
-    const nombres = document.getElementById("nombres").value.trim();
-    const apellidoP = document.getElementById("apellidoP").value.trim();
-    const apellidoM = document.getElementById("apellidoM").value.trim();
-    const usuario = document.getElementById("usuario").value.trim();
-    const correo = document.getElementById("correo").value.trim();
-    const password = document.getElementById("password").value;
+    const nombres         = document.getElementById("nombres").value.trim();
+    const usuario         = document.getElementById("usuario").value.trim();
+    const correo          = document.getElementById("correo").value.trim();
+    const password        = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
-    const cuota = document.getElementById("cuota").value;
-    /* const fechaNacimiento = document.getElementById("fechaNacimiento").value; */
-    /* const categoria = document.getElementById("categoria").value;
-    const temaClase = document.getElementById("temaClase").value.trim(); */
+    const cuota           = document.getElementById("cuota").value;
+    const emailRegex      = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
     if (!nombres) {
         showError("nombres", "El nombre es requerido.");
@@ -80,8 +139,6 @@ function validateForm() {
         showError("usuario", "Mínimo 4 caracteres.");
         valid = false;
     }
-    
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
     if (!correo) {
         showError("correo", "El correo es requerido.");
@@ -112,86 +169,66 @@ function validateForm() {
         valid = false;
     }
 
-    /* if (!fechaNacimiento) {
-        showError("fechaNacimiento", "La fecha de nacimiento es requerida.");
-        valid = false;
-    } else {
-        const hoy = new Date();
-        const nacimiento = new Date(fechaNacimiento);
-        const edad = hoy.getFullYear() - nacimiento.getFullYear();
-        if (edad < 18) {
-            showError("fechaNacimiento", "Debes tener al menos 18 años.");
-            valid = false;
-        }
-    } */
-
-    /* if (!categoria) {
-        showError("categoria", "Selecciona una categoría.");
+    // Validar que seleccionó al menos un tema
+    if (getTemasSeleccionados().length === 0) {
+        const err = document.getElementById("err-temas");
+        if (err) err.textContent = "Selecciona al menos un tema de dominio.";
         valid = false;
     }
-
-    if (!temaClase) {
-        showError("temaClase", "El tema de la clase es requerido.");
-        valid = false;
-    } */
 
     return valid;
 }
 
+// ─── Alerta visual ───────────────────────────────────────────────────────────
 function showAlert(msg, type = "error") {
     const box = document.getElementById("alertBox");
     box.className = `alert ${type}`;
     box.innerHTML = `<i class="fas fa-${type === "success" ? "check-circle" : "exclamation-circle"}"></i> ${msg}`;
     box.scrollIntoView({ behavior: "smooth", block: "nearest" });
-
     if (type === "success") {
         setTimeout(() => { box.classList.add("hidden"); }, 5000);
     }
 }
 
+// ─── Envío del formulario ─────────────────────────────────────────────────────
 document.getElementById("btnCrear").addEventListener("click", async () => {
     if (!validateForm()) return;
 
-    const btnCrear = document.getElementById("btnCrear");
-    const btnText = document.getElementById("btnText");
+    const btnCrear  = document.getElementById("btnCrear");
+    const btnText   = document.getElementById("btnText");
     const btnLoader = document.getElementById("btnLoader");
 
-    // Estado de carga
     btnCrear.disabled = true;
     btnText.classList.add("hidden");
     btnLoader.classList.remove("hidden");
 
     const payload = {
-        nombres: document.getElementById("nombres").value.trim(),
+        nombres:   document.getElementById("nombres").value.trim(),
         apellidoP: document.getElementById("apellidoP").value.trim(),
         apellidoM: document.getElementById("apellidoM").value.trim(),
-        usuario: document.getElementById("usuario").value.trim(),
-        correo: document.getElementById("correo").value.trim(),
-        password: document.getElementById("password").value,
-        cuota: parseFloat(document.getElementById("cuota").value),
-        /* fecha_nacimiento: document.getElementById("fechaNacimiento").value, */
-        /* categoria: document.getElementById("categoria").value,
-        tema_clase: document.getElementById("temaClase").value.trim(), */
-        foto: photoBase64 || null,
-        rol: "asesor"
+        usuario:   document.getElementById("usuario").value.trim(),
+        correo:    document.getElementById("correo").value.trim(),
+        password:  document.getElementById("password").value,
+        cuota:     parseFloat(document.getElementById("cuota").value),
+        temas:     getTemasSeleccionados(),   // ← array de IDs: [2, 5, 8]
+        foto:      photoBase64 || null,
+        rol:       "asesor"
     };
 
     try {
-        fetch("/registerAccount", {
-            method: "POST",
+        const r    = await fetch("/registerAccount", {
+            method:  "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        }).then(r => r.json())
-        .then(data => {
-
-            if(!data.success){
-                showAlert(data.message, "error");
-            } else {
-                showAlert(data.message, "success");
-
-                location.href = "/";
-            }
+            body:    JSON.stringify(payload)
         });
+        const data = await r.json();
+
+        if (!data.success) {
+            showAlert(data.message, "error");
+        } else {
+            showAlert(data.message, "success");
+            setTimeout(() => { location.href = "/"; }, 1500);
+        }
     } catch (error) {
         console.error("Error de red:", error);
         showAlert("No se pudo conectar con el servidor. Verifica tu conexión.", "error");
@@ -202,16 +239,17 @@ document.getElementById("btnCrear").addEventListener("click", async () => {
     }
 });
 
+// ─── Reset ────────────────────────────────────────────────────────────────────
 function resetForm() {
-    ["nombres", "usuario", "correo", "password", "confirmPassword", "cuota", /* "fechaNacimiento", */ /* "categoria", "temaClase" */].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.value = "";
-        });
-
-    // Resetear foto
-    photoInput.value = "";
-    photoBase64 = null;
-    avatarImg.src = "";
+    ["nombres", "apellidoP", "apellidoM", "usuario", "correo",
+     "password", "confirmPassword", "cuota", "buscadorTemas"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+    });
+    document.querySelectorAll(".tema-checkbox").forEach(cb => cb.checked = false);
+    photoInput.value      = "";
+    photoBase64           = null;
+    avatarImg.src         = "";
     avatarImg.style.display = "none";
     avatarIcon.style.display = "";
 }

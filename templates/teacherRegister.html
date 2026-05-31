@@ -45,7 +45,6 @@
             <div class="form-body">
 
                 <div class="form-row one-col">
-                    <!-- Nombre -->
                     <div class="field-group">
                         <label class="field-label" for="nombres">Nombre(s)</label>
                         <div class="input-wrap">
@@ -57,9 +56,8 @@
                 </div>
 
                 <div class="form-row two-col">
-                    <!-- Apellido P -->
                     <div class="field-group">
-                        <label class="field-label" for="apellidos">Apellido Paterno</label>
+                        <label class="field-label" for="apellidoP">Apellido Paterno</label>
                         <div class="input-wrap">
                             <input type="text" id="apellidoP" class="field-input" placeholder="Primer apellido"
                                 autocomplete="off" />
@@ -67,7 +65,6 @@
                         <span class="field-error" id="err-apellidoP"></span>
                     </div>
 
-                    <!-- Apellido M -->
                     <div class="field-group">
                         <label class="field-label" for="apellidoM">Apellido Materno</label>
                         <div class="input-wrap">
@@ -79,7 +76,6 @@
                 </div>
 
                 <div class="form-row two-col">
-                    <!-- Nombre de usuario -->
                     <div class="field-group">
                         <label class="field-label" for="usuario">Nombre de usuario</label>
                         <div class="input-wrap">
@@ -88,8 +84,7 @@
                         </div>
                         <span class="field-error" id="err-usuario"></span>
                     </div>
-                    
-                    <!-- Correo -->
+
                     <div class="field-group">
                         <label class="field-label" for="correo">Correo</label>
                         <div class="input-wrap">
@@ -101,7 +96,6 @@
                 </div>
 
                 <div class="form-row two-col">
-                    <!-- Contraseña -->
                     <div class="field-group">
                         <label class="field-label" for="password">Contraseña</label>
                         <div class="input-wrap">
@@ -113,7 +107,6 @@
                         <span class="field-error" id="err-password"></span>
                     </div>
 
-                    <!-- Confirmar Contraseña -->
                     <div class="field-group">
                         <label class="field-label" for="confirmPassword">Confirmar Contraseña</label>
                         <div class="input-wrap">
@@ -127,17 +120,6 @@
                 </div>
 
                 <div class="form-row one-col">
-                    <!-- Fecha de nacimiento -->
-                    <!-- <div class="field-group">
-                        <label class="field-label" for="fechaNacimiento">Fecha de nacimiento</label>
-                        <div class="input-wrap">
-                            <input type="date" id="fechaNacimiento" class="field-input" />
-                            <span class="input-icon"><i class="fas fa-calendar-alt"></i></span>
-                        </div>
-                        <span class="field-error" id="err-fechaNacimiento"></span>
-                    </div> -->
-
-                    <!-- Cuota -->
                     <div class="field-group">
                         <label class="field-label" for="cuota">Cuota</label>
                         <div class="input-wrap">
@@ -147,36 +129,31 @@
                     </div>
                 </div>
 
-                <!-- <div class="form-row two-col"> -->
-                    <!-- Categoría -->
-                    <!-- <div class="field-group">
-                        <label class="field-label" for="categoria">Categoría</label>
-                        <div class="input-wrap select-wrap">
-                            <select id="categoria" class="field-input field-select">
-                                <option value="">Selecciona una categoría</option>
-                                <option value="matematicas">Matemáticas</option>
-                                <option value="ciencias">Ciencias</option>
-                                <option value="idiomas">Idiomas</option>
-                                <option value="historia">Historia</option>
-                                <option value="arte">Arte</option>
-                                <option value="tecnologia">Tecnología</option>
-                                <option value="otro">Otro</option>
-                            </select>
-                            <span class="input-icon"><i class="fas fa-chevron-down"></i></span>
-                        </div>
-                        <span class="field-error" id="err-categoria"></span>
-                    </div> -->
+                <!-- ===== TEMAS DE DOMINIO ===== -->
+                <div class="form-row one-col">
+                    <div class="field-group">
+                        <label class="field-label">Temas de dominio</label>
+                        <p class="field-hint">Selecciona al menos un tema que puedas impartir</p>
 
-                    <!-- Tema de la clase -->
-                    <!-- <div class="field-group">
-                        <label class="field-label" for="temaClase">Tema de la clase</label>
-                        <div class="input-wrap">
-                            <input type="text" id="temaClase" class="field-input"
-                                placeholder="Ej: Álgebra, Inglés básico..." />
+                        <!-- Buscador de temas -->
+                        <div class="input-wrap" style="margin-bottom: 8px;">
+                            <input type="text" id="buscadorTemas" class="field-input"
+                                placeholder="Buscar tema..." autocomplete="off" />
+                            <span class="input-icon"><i class="fas fa-search"></i></span>
                         </div>
-                        <span class="field-error" id="err-temaClase"></span>
+
+                        <!-- Grid de checkboxes -->
+                        <div class="temas-grid" id="temasGrid">
+                            <p class="temas-loading">
+                                <i class="fas fa-spinner fa-spin"></i> Cargando temas...
+                            </p>
+                        </div>
+
+                        <div class="temas-counter" id="temasCounter"></div>
+                        <span class="field-error" id="err-temas"></span>
                     </div>
-                </div> -->
+                </div>
+                <!-- ===== FIN TEMAS ===== -->
 
                 <div class="form-row submit-row">
                     <button class="btn-submit" id="btnCrear" type="button">
